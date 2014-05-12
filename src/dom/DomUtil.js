@@ -144,13 +144,13 @@ L.DomUtil = {
 			shift = L.point(pos.x + anchor.x - scaleCosTheta * anchor.x + scaleSinTheta * anchor.y,
 							pos.y + anchor.y - scaleCosTheta * anchor.y - scaleSinTheta * anchor.x);
 		
-		if (L.Browser.any3d) {
+		if (!L.Browser.ielt9) {
 			var is3d = L.Browser.webkit3d;
 			el.style[L.DomUtil.TRANSFORM] =
 				'translate' + (is3d ? '3d(' : '(') + shift.x + 'px,' + shift.y + 'px' + (is3d ? ',0)' : ')') +
 				(scale !== 1 ? ' scale(' + scale + ')' : '') +
 				(angle !== 0 ? ' rotate(' + angle + 'deg)' : '');
-		} else if (L.Browser.ie) {
+		} else {
 			// DXImageTransform shifts and enlarges the image to avoid clipping.
 			// We apply an opposite shift to ensure the element appears in the correct position.
 			var bounds = L.point(el.width, el.height),
@@ -168,9 +168,6 @@ L.DomUtil = {
 			filter.Enabled = true;
 			el.style.left = shift.x + 'px';
 			el.style.top = shift.y + 'px';
-		} else {
-			el.style.left = pos.x + 'px';
-			el.style.top = pos.y + 'px';
 		}
 	},
 
